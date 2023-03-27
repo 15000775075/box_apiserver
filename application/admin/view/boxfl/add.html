@@ -1,0 +1,126 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Box_name')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-box_name" data-rule="required" class="form-control" name="row[box_name]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Box_banner_images')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-box_banner_images" class="form-control" size="50" name="row[box_banner_images]" type="textarea">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-box_banner_images" class="btn btn-danger faupload" data-input-id="c-box_banner_images" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="true" data-preview-id="p-box_banner_images"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-box_banner_images" class="btn btn-primary fachoose" data-input-id="c-box_banner_images" data-mimetype="image/*" data-multiple="true"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-box_banner_images"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-box_banner_images"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Box_foot_images')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-box_foot_images" class="form-control" size="50" name="row[box_foot_images]" type="textarea">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-box_foot_images" class="btn btn-danger faupload" data-input-id="c-box_foot_images" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="true" data-preview-id="p-box_foot_images"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-box_foot_images" class="btn btn-primary fachoose" data-input-id="c-box_foot_images" data-mimetype="image/*" data-multiple="true"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-box_foot_images"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-box_foot_images"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Box_label')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-box_label" class="form-control" name="row[box_label]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Probability_gj')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-probability_gj" data-rule="required" class="form-control" name="row[probability_gj]" type="number">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Probability_xy')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-probability_xy" data-rule="required" class="form-control" name="row[probability_xy]" type="number">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Probability_ss')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-probability_ss" data-rule="required" class="form-control" name="row[probability_ss]" type="number">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Probability_cs')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-probability_cs" data-rule="required" class="form-control" name="row[probability_cs]" type="number">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">试玩高级概率:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-sw_probability_gj" data-rule="required" class="form-control" name="row[sw_probability_gj]" type="number">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">试玩稀有概率:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-sw_probability_xy" data-rule="required" class="form-control" name="row[sw_probability_xy]" type="number">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">试玩史诗概率:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-sw_probability_ss" data-rule="required" class="form-control" name="row[sw_probability_ss]" type="number">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">试玩传说概率:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-sw_probability_cs" data-rule="required" class="form-control" name="row[sw_probability_cs]" type="number">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">排序:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-sort" data-rule="required" class="form-control" name="row[sort]" type="number">
+        </div>
+    </div>
+        <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('新人优惠开关')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            
+            <input  id="c-xryh" name="row[xryh]" type="hidden" value="1">
+            <a href="javascript:;" data-toggle="switcher" class="btn-switcher" data-input-id="c-xryh" data-yes="1" data-no="0" >
+                <i class="fa fa-toggle-on text-success  fa-2x"></i>
+            </a>
+        </div>
+    </div>
+    <!--<div class="form-group">-->
+    <!--    <label class="control-label col-xs-12 col-sm-2">{:__('Boxswitch')}:</label>-->
+    <!--    <div class="col-xs-12 col-sm-8">-->
+    <!--        <input id="c-boxswitch" data-rule="required" class="form-control" name="row[boxswitch]" type="number">-->
+    <!--    </div>-->
+    <!--</div>-->
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Price')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-price" class="form-control" name="row[price]" type="number">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

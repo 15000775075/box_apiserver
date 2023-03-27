@@ -1,0 +1,535 @@
+<div class="panel panel-default panel-intro">
+  {:build_heading()}
+
+  <div class="panel-body">
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade active in" id="one">
+        <div class="widget-body no-padding">
+          <form
+            id="edit-form"
+            class="form-horizontal"
+            role="form"
+            data-toggle="validator"
+            method="POST"
+            action=""
+          >
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >{:__('tutorialfile')}:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-tutorialfile"
+                  class="form-control"
+                  name="row[tutorialfile]"
+                  type="text"
+                  value="{$row.tutorialfile|htmlentities}"
+                />
+              </div>
+            </div>
+            <hr />
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >客服二维码:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <div class="input-group">
+                  <input
+                    id="c-kfimage"
+                    class="form-control"
+                    size="50"
+                    name="row[kfimage]"
+                    type="text"
+                    value="{$row.kfimage|htmlentities}"
+                  />
+                  <div class="input-group-addon no-border no-padding">
+                    <span
+                      ><button
+                        type="button"
+                        id="faupload-kfimage"
+                        class="btn btn-danger faupload"
+                        data-input-id="c-kfimage"
+                        data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp"
+                        data-multiple="false"
+                        data-preview-id="p-kfimage"
+                      >
+                        <i class="fa fa-upload"></i> {:__('Upload')}
+                      </button></span
+                    >
+                    <span
+                      ><button
+                        type="button"
+                        id="fachoose-kfimage"
+                        class="btn btn-primary fachoose"
+                        data-input-id="c-kfimage"
+                        data-mimetype="image/*"
+                        data-multiple="false"
+                      >
+                        <i class="fa fa-list"></i> {:__('Choose')}
+                      </button></span
+                    >
+                  </div>
+                  <span class="msg-box n-right" for="c-kfimage"></span>
+                </div>
+                <ul
+                  class="row list-inline faupload-preview"
+                  id="p-kfimage"
+                ></ul>
+              </div>
+            </div>
+            <hr />
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >邀请赠送优惠券ID(保证优惠券存在):</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-coupon_id"
+                  data-rule="required;range(0~100)"
+                  class="form-control"
+                  name="row[coupon_id]"
+                  type="number"
+                  value="{$row.coupon_id|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >下级开盒赠送上级盲盒ID:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-boxfl_id"
+                  data-rule="required;range(0~100)"
+                  class="form-control"
+                  name="row[boxfl_id]"
+                  type="number"
+                  value="{$row.boxfl_id|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >仓库回收幸运币比例%:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-dhbl"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[dhbl]"
+                  type="text"
+                  value="{$row.dhbl|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >默认分佣比例%:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-def_fenyong_bili"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[def_fenyong_bili]"
+                  type="text"
+                  value="{$row.def_fenyong_bili|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >消费兑换幸运币比例(填100就是1:100):</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-zhbl"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[zhbl]"
+                  type="text"
+                  value="{$row.zhbl|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >幸运币抵扣比例(填100就是100幸运币抵扣1元):</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-score_rmb_rate"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[score_rmb_rate]"
+                  type="text"
+                  value="{$row.score_rmb_rate|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >邀请好友随机赠送幸运币(范围格式1-100):</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-yqzscoin"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[yqzscoin]"
+                  type="text"
+                  value="{$row.yqzscoin|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >{:__('连抽优惠比例%')}:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-lcyhbl"
+                  data-rule="required;range(0~100)"
+                  class="form-control"
+                  name="row[lcyhbl]"
+                  type="number"
+                  value="{$row.lcyhbl|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >{:__('APP下载跳转')}:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-openurl"
+                  class="form-control"
+                  name="row[appurl]"
+                  type="text"
+                  value="{$row.appurl|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >首次兑换获得重抽卡ID(保证重抽卡存在):</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-card_id"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[card_id]"
+                  type="text"
+                  value="{$row.card_id|htmlentities}"
+                />
+              </div>
+            </div>
+            <hr />
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >阿里云accessid:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-accessid"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[accessid]"
+                  type="text"
+                  value="{$row.accessid|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >阿里云accesskey:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-accesskey"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[accesskey]"
+                  type="text"
+                  value="{$row.accesskey|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >阿里云OSS实例地址(例:oss-accelerate.aliyuncs.com):</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-endpoint"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[endpoint]"
+                  type="text"
+                  value="{$row.endpoint|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >阿里云存储空间名称:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-bucket"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[bucket]"
+                  type="text"
+                  value="{$row.bucket|htmlentities}"
+                />
+              </div>
+            </div>
+            <hr />
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2">小程序ID:</label>
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-mpappid"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[mpappid]"
+                  type="text"
+                  value="{$row.mpappid|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >小程序密钥:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-mpappkey"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[mpappkey]"
+                  type="text"
+                  value="{$row.mpappkey|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >微信开放平台ID:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-wxappid"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[wxappid]"
+                  type="text"
+                  value="{$row.wxappid|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >微信开放平台密钥:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-wxappkey"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[wxappkey]"
+                  type="text"
+                  value="{$row.wxappkey|htmlentities}"
+                />
+              </div>
+            </div>
+            <hr />
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >微信商户号:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-payid"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[payid]"
+                  type="text"
+                  value="{$row.payid|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2">微信密钥:</label>
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-paykey"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[paykey]"
+                  type="text"
+                  value="{$row.paykey|htmlentities}"
+                />
+              </div>
+            </div>
+            <hr />
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >支付宝应用ID:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-appId"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[appId]"
+                  type="text"
+                  value="{$row.appId|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >支付宝应用私钥:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-rsaPrivateKey"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[rsaPrivateKey]"
+                  type="text"
+                  value="{$row.rsaPrivateKey|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >支付宝应用公钥:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-alipayrsaPublicKey"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[alipayrsaPublicKey]"
+                  type="text"
+                  value="{$row.alipayrsaPublicKey|htmlentities}"
+                />
+              </div>
+            </div>
+            <hr />
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2">易支付ID:</label>
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-yzfid"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[yzfid]"
+                  type="text"
+                  value="{$row.yzfid|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >易支付密钥:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-yzfkey"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[yzfkey]"
+                  type="text"
+                  value="{$row.yzfkey|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >易支付地址:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-yzfurl"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[yzfurl]"
+                  type="text"
+                  value="{$row.yzfurl|htmlentities}"
+                />
+              </div>
+            </div>
+            <hr />
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >快递100key:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-kdkey"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[kdkey]"
+                  type="text"
+                  value="{$row.kdkey|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >快递100customer:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-kdcustomer"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[kdcustomer]"
+                  type="text"
+                  value="{$row.kdcustomer|htmlentities}"
+                />
+              </div>
+            </div>
+            <hr />
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-2"
+                >分享页面域名:</label
+              >
+              <div class="col-xs-12 col-sm-8">
+                <input
+                  id="c-domain"
+                  data-rule="required"
+                  class="form-control"
+                  name="row[domain]"
+                  type="text"
+                  value="{$row.domain|htmlentities}"
+                />
+              </div>
+            </div>
+            <div class="form-group layer-footer">
+              <label class="control-label col-xs-12 col-sm-2"></label>
+              <div class="col-xs-12 col-sm-8">
+                <button
+                  type="submit"
+                  class="btn btn-success btn-embossed disabled"
+                >
+                  {:__('OK')}
+                </button>
+                <button type="reset" class="btn btn-default btn-embossed">
+                  {:__('Reset')}
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

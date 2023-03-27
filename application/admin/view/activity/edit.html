@@ -1,0 +1,56 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Activityname')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-activityname" class="form-control" name="row[activityname]" type="text" value="{$row.activityname|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Activityimage')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-activityimage" class="form-control" size="50" name="row[activityimage]" type="text" value="{$row.activityimage|htmlentities}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-activityimage" class="btn btn-danger faupload" data-input-id="c-activityimage" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-activityimage"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-activityimage" class="btn btn-primary fachoose" data-input-id="c-activityimage" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-activityimage"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-activityimage"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Tcimage')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-tcimage" class="form-control" size="50" name="row[tcimage]" type="text" value="{$row.tcimage|htmlentities}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-tcimage" class="btn btn-danger faupload" data-input-id="c-tcimage" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-tcimage"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-tcimage" class="btn btn-primary fachoose" data-input-id="c-tcimage" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-tcimage"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-tcimage"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Boxfl_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-boxfl_id" data-rule="required" data-source="boxfl/index"  data-field="box_name" class="form-control selectpage" name="row[boxfl_id]" type="text" value="{$row.boxfl_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Tcswitch')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-tcswitch" class="form-control" name="row[tcswitch]" type="number" value="{$row.tcswitch|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
