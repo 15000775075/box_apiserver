@@ -9,7 +9,7 @@ return array(
     'think\\helper\\' => array($vendorDir . '/topthink/think-helper/src'),
     'think\\composer\\' => array($vendorDir . '/topthink/think-installer/src'),
     'think\\captcha\\' => array($vendorDir . '/topthink/think-captcha/src'),
-    'think\\' => array($vendorDir . '/topthink/think-queue/src', $baseDir . '/thinkphp/library/think', $vendorDir . '/karsonzhang/fastadmin-addons/src'),
+    'think\\' => array($vendorDir . '/karsonzhang/fastadmin-addons/src', $baseDir . '/thinkphp/library/think', $vendorDir . '/topthink/think-queue/src'),
     'WeChatPay\\' => array($vendorDir . '/wechatpay/wechatpay/src'),
     'Tx\\' => array($vendorDir . '/txthinking/mailer/src'),
     'Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),
@@ -39,6 +39,7 @@ return array(
     'Overtrue\\Pinyin\\' => array($vendorDir . '/overtrue/pinyin/src'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Matrix\\' => array($vendorDir . '/markbaker/matrix/classes/src'),
+    'JmesPath\\' => array($vendorDir . '/mtdowling/jmespath.php/src'),
     'GuzzleHttp\\UriTemplate\\' => array($vendorDir . '/guzzlehttp/uri-template/src'),
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
     'GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),
@@ -46,4 +47,5 @@ return array(
     'EasyWeChat\\' => array($vendorDir . '/overtrue/wechat/src'),
     'EasyWeChatComposer\\' => array($vendorDir . '/easywechat-composer/easywechat-composer/src'),
     'Complex\\' => array($vendorDir . '/markbaker/complex/classes/src'),
+    'Aws\\' => array($vendorDir . '/aws/aws-sdk-php/src'),
 );

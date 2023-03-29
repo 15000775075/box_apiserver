@@ -5,6 +5,8 @@ namespace app\admin\controller;
 use app\common\controller\Backend;
 use app\common\exception\UploadException;
 use app\common\library\Upload;
+use Aws\AwsClient;
+use Aws\Credentials\Credentials;
 use fast\Random;
 use think\addons\Service;
 use think\Cache;
@@ -17,6 +19,7 @@ use think\Validate;
 use OSS\OssClient;
 use AliCloud\OSS\Core\OssException;
 
+
 /**
  * Ajax异步请求接口
  * @internal
@@ -24,7 +27,7 @@ use AliCloud\OSS\Core\OssException;
 class Ajax extends Backend
 {
 
-    protected $noNeedLogin = ['lang'];
+    protected $noNeedLogin = ['lang','fileUpload'];
     protected $noNeedRight = ['*'];
     protected $layout = '';
 
@@ -204,13 +207,13 @@ class Ajax extends Backend
         $s = Db::table('box_setting')->where('id', 1)->find();
         $newurl = md5(date("Y-m-d H:i:s")) . ".jpg";
         //配置
-        $accessKeyId  = $s['accessid'];
+        $accessKeyId = $s['accessid'];
         //你的阿里的accessid
-        $accessKeySecret  = $s['accesskey'];
+        $accessKeySecret = $s['accesskey'];
         //你的阿里的accesskey
         $endpoint = $s['endpoint'];
         // Endpoint以北京为例，其它Region请按实际情况填写。
-        $bucket  = $s['bucket'];
+        $bucket = $s['bucket'];
         // 存储空间名称
         // 
         $object = $newurl;
@@ -414,4 +417,79 @@ class Ajax extends Backend
         $response = Response::create($data, '', 200, $header);
         return $response;
     }
+
+    /**
+     * AWS S3上传文件
+     * @param string $file 文件名称
+     * @return array
+     */
+    function fileUpload($file)
+    {
+
+        //设置超时
+        set_time_limit(0);
+        //证书 AWS access KEY ID  和  AWS secret  access KEY 替换成自己的
+        $credentials = new Credentials('LTAI5t5oMXyKSzi59c617vw6', 'CsFQjalrZqbhdyAOhxex5dP8OkBRSL');
+        //s3客户端
+        $s3 = new Aws ([
+            'version' => 'latest',
+            //地区 亚太区域（新加坡）
+            //AWS区域和终端节点： http://docs.amazonaws.cn/general/latest/gr/rande.html
+            'region' => 'ap-southeast-1',
+            //加载证书
+            'credentials' => $credentials,
+            //开启bug调试
+            //'debug'   => true
+        ]);
+        echo $s3;
+
+
+        //存储桶 获取AWS存储桶的名称
+        $bucket = 'test';//'AWS存储桶名称';
+        //需要上传的文件
+        //ROOT_PATH项目根目录，文件的本地路径例:D:/www/abc.jpg;
+        $source = ROOT_PATH . $file;
+        //多部件上传
+        $uploader = new MultipartUploader($s3, $source, [
+            //存储桶
+            'bucket' => $bucket,
+            //上传后的新地址
+            'key' => $file,
+            //设置访问权限  公开,不然访问不了
+            'ACL' => 'public-read',
+            //分段上传
+            'before_initiate' => function (\Aws\Command $command) {
+                // $command is a CreateMultipartUpload operation
+                $command['CacheControl'] = 'max-age=3600';
+            },
+            'before_upload' => function (\Aws\Command $command) {
+                // $command is an UploadPart operation
+                $command['RequestPayer'] = 'requester';
+            },
+            'before_complete' => function (\Aws\Command $command) {
+                // $command is a CompleteMultipartUpload operation
+                $command['RequestPayer'] = 'requester';
+            },
+        ]);
+
+        try {
+            $result = $uploader->upload();
+            //上传成功--返回上传后的地址
+            $data = [
+                'type' => '1',
+                'data' => urldecode($result['ObjectURL'])
+            ];
+        } catch (MultipartUploadException $e) {
+            //上传失败--返回错误信息
+            $uploader = new MultipartUploader($s3, $source, [
+                'state' => $e->getState(),
+            ]);
+            $data = [
+                'type' => '0',
+                'data' => $e->getMessage()
+            ];
+        }
+        return $data;
+    }
+
 }

@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'name' => '壹软盲盒V2',
+  'name' => 'UnBox',
   'beian' => '鲁ICP备2022027172号-8',
   'cdnurl' => '',
   'version' => '1.0.1',
