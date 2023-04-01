@@ -181,7 +181,7 @@ class Ajax extends Backend
             $res = $this->storage_save($name);
             if ($res['info']['http_code'] == 200) {
                 $attachment = $res['info']['url'];
-                $this->success(__('Uploaded successful'), '', ['url' => $attachment, 'fullurl' => $attachment]);
+                $this->success('', '', ['url' => $attachment, 'fullurl' => $attachment]);
             } else {
                 $this->error("上传失败");
             }
@@ -219,7 +219,6 @@ class Ajax extends Backend
         $object = $newurl;
 
         $ossClient = new OssClient($accessKeyId, $accessKeySecret, $endpoint); //引用
-
         $res = $ossClient->uploadFile($bucket, $object, $srcPath); //上传
         return $res;
     }
