@@ -35,7 +35,7 @@ return array (
   'mail_smtp_user' => '10000',
   'mail_smtp_pass' => 'password',
   'mail_verify_type' => '2',
-  'mail_from' => '10000@qq.com',
+  'mail_from' => '1651471722@qq.com',
   'attachmentcategory' => 
   array (
     'category1' => '分类一',

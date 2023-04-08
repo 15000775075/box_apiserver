@@ -58,6 +58,8 @@ class Ems
             //采用框架默认的邮件推送
             Hook::add('ems_send', function ($params) {
                 $obj = new Email();
+
+                var_dump($params);
                 $result = $obj
                     ->to($params->email)
                     ->subject('请查收你的验证码！')
