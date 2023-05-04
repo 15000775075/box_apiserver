@@ -93,9 +93,9 @@ class Shop extends Api
         $s = Db::table('box_setting')->where('id', 1)->find();
         if(input('goods_tj2')!='id' &&input('goods_tj2')!=''){
             $order_px = input('goods_tj2').' '.input('goods_tj');
-            $shops = Db::table('box_goods')->page(input('p', 1), 10)->order($order_px)->select();
+            $shops = Db::table('box_goods')->where('pirce','>',7)->page(input('p', 1), 10)->order($order_px)->select();
         }else{
-            $shops = Db::table('box_goods')->page(input('p', 1), 10)->order('sort desc,id asc')->select();
+            $shops = Db::table('box_goods')->where('pirce','>',7)->page(input('p', 1), 10)->order('sort desc,id asc')->select();
         }
         if (empty($shops)) {
             $this->error('未找到商品');

@@ -175,7 +175,8 @@ class Index extends Api
             'image' => $box['box_banner_images'],
             'num' => $post['num'],
             'user_id' => $this->auth->id,
-            'pay_method' => $post['payfs'],
+            'pay_method' => 'money',
+                //$post['payfs'],
             'pay_coin' => $post['price'],
             'out_trade_no' => $ooid,
             'status' => 'unpay', //unpay=待支付,used=已使用,refund=已关闭
@@ -243,7 +244,7 @@ class Index extends Api
          * 1：小程序
          * 2：APP
          */
-         if($post['payfs']=='score'){ //金豆支付
+         if($post['payfs']=='money'){ //星钻支付
             $this->scorePay($ooid);
             die;
         }
@@ -268,34 +269,35 @@ class Index extends Api
         }
     }
     //幸运币余额支付订单
-    function scorePay($ooid){
-        $mh_order = Db::name('order')->where('out_trade_no',$ooid)->find();
-        if(!$mh_order){
+    function scorePay($ooid)
+    {
+        $mh_order = Db::name('order')->where('out_trade_no', $ooid)->find();
+        if (!$mh_order) {
             $this->error('订单不存在');
         }
-        $user = Db::name('user')->where('id',$this->auth->id)->find();
-        if($user['score']<$mh_order['pay_coin']){
-            $this->error('您的幸运币余额不足！');
+        $user = Db::name('user')->where('id', $this->auth->id)->find();
+        if ($user['money'] < $mh_order['pay_coin']) {
+            $this->error('您的星钻余额不足！');
         }
-        //记录幸运币表
-        $coindata = [
-            'user_id' => $user['id'],
-            'before' => $user['score'],
-            'after' => $user['score'] - $mh_order['pay_coin'],
-            'coin' => $mh_order['pay_coin'],
-            'type' => 'pay_shop',
-            'money_type'=>0,
-            'order_id' => $mh_order['id'],
-            'create_time' => time()
-        ];
-        $coinjl = Db::table('box_coin_record')->insert($coindata);
-        $res = Db::name('user')->where('id', $this->auth->id)->setDec('score', $mh_order['pay_coin']);
-        if($res){
+//        //记录幸运币表
+//        $coindata = [
+//            'user_id' => $user['id'],
+//            'before' => $user['score'],
+//            'after' => $user['score'] - $mh_order['pay_coin'],
+//            'coin' => $mh_order['pay_coin'],
+//            'type' => 'pay_shop',
+//            'money_type'=>0,
+//            'order_id' => $mh_order['id'],
+//            'create_time' => time()
+//        ];
+//$coinjl = Db::table('box_coin_record')->insert($coindata);
+        $res = Db::name('user')->where('id', $this->auth->id)->setDec('money', $mh_order['pay_coin']);
+        if ($res) {
             $PayController = new \app\api\controller\Pay();
-            $PayController->handle($ooid,'jindou_pay-'.$ooid);//该控制器需要的参数
-            $this->success('支付成功',['ooid'=>$ooid]);
-        }else{
-            $this->error('金豆扣除失败，请重试');
+            $PayController->handle($ooid, 'jindou_pay-' . $ooid);//该控制器需要的参数
+            $this->success('支付成功', ['ooid' => $ooid]);
+        } else {
+            $this->error('星钻扣除失败，请重试');
         }
     }
     
