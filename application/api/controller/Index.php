@@ -156,17 +156,19 @@ class Index extends Api
         $ooid = 'ALDMH' . date('Ymd') . substr(implode('', array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
         $box = Db::table('box_boxfl')->where('id', $post['boxid'])->find();
         $user = Db::table('box_user')->where('id',$this->auth->id)->find();
+        var_dump($user['money']);
+        var_dump($post['xs']);
         if($user['money']<$post['xs']){
             $this->error('您的星石不足抵扣');
         }
-        if(!empty($post['currentCoupon_id'])){
-            $my_current = db('coupon_list')->where('id',$post['currentCoupon_id'])->where('user_id',$this->auth->id)->find();
-            if(!$my_current  ||  $my_current['status']!=0){
-                $this->error('优惠券已被使用');
-            }
-            db('coupon_list')->where('id',$post['currentCoupon_id'])->where('user_id',$this->auth->id)->update(['status'=>1]);
-            
-        }
+//        if(!empty($post['currentCoupon_id'])){
+//            $my_current = db('coupon_list')->where('id',$post['currentCoupon_id'])->where('user_id',$this->auth->id)->find();
+//            if(!$my_current  ||  $my_current['status']!=0){
+//                $this->error('优惠券已被使用');
+//            }
+//            db('coupon_list')->where('id',$post['currentCoupon_id'])->where('user_id',$this->auth->id)->update(['status'=>1]);
+//
+//        }
         // print_r($post);
         // exit;
         $data = [
