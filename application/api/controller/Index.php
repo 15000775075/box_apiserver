@@ -362,9 +362,12 @@ class Index extends Api
         if (empty($goodsIds)) {
             throw new \Exception('奖品不足');
         }
-        // 查询有效商品的概率信息标签:normal=高级,rare=稀有 ,supreme=史诗,legend=传说
+        // 查询有效商品的概率信息标签:general=普通,normal=高级,rare=稀有 ,supreme=史诗,legend=传说
         $box = Db::table('box_boxfl')->where('id', $order['boxfl_id'])->where('boxswitch', 1)->find();
         foreach ($goodsIds as &$goods) {
+            if ($goods['tag'] == 'general') {
+                $goods['gl'] = $box['probability_pt'];
+            }
             if ($goods['tag'] == 'normal') {
                 $goods['gl'] = $box['probability_gj'];
             } else if ($goods['tag'] == 'rare') {
