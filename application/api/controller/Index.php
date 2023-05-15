@@ -435,6 +435,10 @@ class Index extends Api
             $ooid = 'ALDMH' . date('Ymd') . substr(implode('', array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
             $s = Db::table('box_setting')->where('id', 1)->find();
             // $lucy = $shop['goods_pirce'] * ($s['dhbl'] / 100);
+            if($shop['is_show_price']==0)
+            {
+                $shop['goods_pirce']=rand(3,5);
+            }
             $lucy = $shop['goods_pirce'] * ($s['dhbl'] / 100) * $s['zhbl'];
             $data = [
                 'boxfl_id' => $order['boxfl_id'],
@@ -445,7 +449,7 @@ class Index extends Api
                 'goods_name' => $shop['goods_name'],
                 'goods_image' => $shop['imagess'][0],
                 'goods_coin_price' => $lucy,
-                'goods_rmb_price' => $shop['goods_pirce'],
+                'goods_rmb_price' =>  $shop['goods_pirce'],
                 'status' => 'bag',
                 'delivery_fee' => $shop['delivery_fee'],
                 'create_time' => time(),
