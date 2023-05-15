@@ -13,7 +13,7 @@ class Boxcategory extends Model
     
 
     // 表名
-    protected $name = 'boxcategory';
+    protected $name = 'category';
     
     // 自动写入时间戳字段
     protected $autoWriteTimestamp = false;
