@@ -60,6 +60,7 @@ define(["jquery", "bootstrap", "backend", "table", "form"], function (
               field: "tag",
               title: __("Tag"),
               searchList: {
+                general: __("Tag general"),
                 normal: __("Tag normal"),
                 rare: __("Tag rare"),
                 supreme: __("Tag supreme"),

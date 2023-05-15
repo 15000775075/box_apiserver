@@ -13,7 +13,7 @@ use epay\epay;
 
 class Shop extends Api
 {
-    protected $noNeedLogin = ['getShopfl', 'getShopsy', 'getShop', 'getBanner', 'getShoplist', 'getShops', 'notifyx'];
+    protected $noNeedLogin = ['getShopfl', 'getShopsy', 'getShop', 'getBanner', 'getShoplist', 'getShops', 'notifyx','syncBox'];
     protected $noNeedRight = ['*'];
     /**
      * 获取商城分类
@@ -377,5 +377,70 @@ class Shop extends Api
             $notice = $this->request->domain() . '/index.php/api/pay/shopnotifyx';
             $alipay->pay('购买商品', $ooid, $order['pay_rmb'], $notice);
         }
+    }     /**
+ * 同步盲盒商品
+ */
+    public function syncBox()
+    {
+        //根据ID查询对应盲盒
+        $boxfls = Db::table('box_boxfl')->where('price', '>','40')->select();
+        foreach ($boxfls as & $boxfl) {
+
+            $bonxgoods1 = [
+                'goods_name' => 'apple coupon',
+                'boxfl_id' => $boxfl['id'],
+                'goods_images' => 'https://unbox8.oss-cn-hongkong.aliyuncs.com/dreambox_images/2023-05-13/apple.png',
+                'goods_stock' => 99999,
+                'goods_pirce' => 0,
+                'delivery_fee' => 0,
+                'create_time' => time(),
+                'tag' => 'general',
+                'luckycoin' => 0,
+                'zj_rate' => 95,
+                'ms' => '',
+                'is_show_price' => 0,
+
+            ];
+            Db::table('box_mhgoods')->insert($bonxgoods1);
+
+
+            $bonxgoods2 = [
+                'goods_name' => 'mcdonald coupon',
+                'boxfl_id' => $boxfl['id'],
+                'goods_images' => 'https://unbox8.oss-cn-hongkong.aliyuncs.com/dreambox_images/2023-05-13/mdl.png',
+                'goods_stock' => 99999,
+                'goods_pirce' => 0,
+                'delivery_fee' => 0,
+                'create_time' => time(),
+                'tag' => 'general',
+                'luckycoin' => 0,
+                'zj_rate' => 95,
+                'ms' => '',
+                'is_show_price' => 0,
+
+            ];
+            Db::table('box_mhgoods')->insert($bonxgoods2);
+
+
+            $bonxgoods3 = [
+                'goods_name' => 'starbucks coupon',
+                'boxfl_id' => $boxfl['id'],
+                'goods_images' => 'https://unbox8.oss-cn-hongkong.aliyuncs.com/dreambox_images/2023-05-13/xbk.png',
+                'goods_stock' => 99999,
+                'goods_pirce' => 0,
+                'delivery_fee' => 0,
+                'create_time' => time(),
+                'tag' => 'general',
+                'luckycoin' => 0,
+                'zj_rate' => 95,
+                'ms' => '',
+                'is_show_price' => 0,
+
+            ];
+            Db::table('box_mhgoods')->insert($bonxgoods3);
+
+
+        }
+
     }
 }

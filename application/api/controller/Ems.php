@@ -6,7 +6,7 @@ use app\common\controller\Api;
 use app\common\library\Ems as Emslib;
 use app\common\model\User;
 use think\Hook;
-
+use Tx\Mailer;
 /**
  * 邮箱验证码接口
  */
@@ -34,22 +34,22 @@ class Ems extends Api
         $event = $event ? $event : 'register';
 
         $last = Emslib::get($email, $event);
-        if ($last && time() - $last['createtime'] < 60) {
-            $this->error(__('发送频繁'));
-        }
-        if ($event) {
-            $userinfo = User::getByEmail($email);
-            if ($event == 'register' && $userinfo) {
-                //已被注册
-                $this->error(__('已被注册'));
-            } elseif (in_array($event, ['changeemail']) && $userinfo) {
-                //被占用
-                $this->error(__('已被占用'));
-            } elseif (in_array($event, ['changepwd', 'resetpwd']) && !$userinfo) {
-                //未注册
-                $this->error(__('未注册'));
-            }
-        }
+//        if ($last && time() - $last['createtime'] < 60) {
+//            $this->error(__('发送频繁'));
+//        }
+//        if ($event) {
+//            $userinfo = User::getByEmail($email);
+//            if ($event == 'register' && $userinfo) {
+//                //已被注册
+//                $this->error(__('已被注册'));
+//            } elseif (in_array($event, ['changeemail']) && $userinfo) {
+//                //被占用
+//                $this->error(__('已被占用'));
+//            } elseif (in_array($event, ['changepwd', 'resetpwd']) && !$userinfo) {
+//                //未注册
+//                $this->error(__('未注册'));
+//            }
+//        }
         $ret = Emslib::send($email, null, $event);
         if ($ret) {
             $this->success(__('发送成功'));
@@ -93,4 +93,24 @@ class Ems extends Api
             $this->error(__('验证码不正确'));
         }
     }
+
+
+    public  function  sende()
+    {
+        $ok = (new Mailer())
+            ->setServer('smtpdm.aliyun.com', 25)
+            ->setAuth('dreambox@dreambox.fun', 'ncHej5pX2WnystHs')
+            ->setFrom('Tom', 'dreambox@dreambox.fun')
+            //->setFakeFrom('Obama', 'fake@address.com') // if u want, a fake name, a fake email
+            ->addTo('Jerry', '1651471722@qq.com')
+            ->setSubject('Hello')
+            ->setBody('Hi, Jerry! I <strong>love</strong> you.')
+            //->addAttachment('host', '/etc/hosts')
+            ->send();
+        var_dump($ok);
+    }
+
+
+
+
 }

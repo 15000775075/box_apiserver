@@ -26,7 +26,7 @@ class Box extends Api
      * 无需鉴权的方法,但需要登录
      * @var array
      */
-    protected $noNeedRight = [];
+    protected $noNeedRight = ['*'];
 
     /**
      * 权限Auth
@@ -77,7 +77,7 @@ class Box extends Api
         $s = Db::name('setting')->where('id',1)->find();
 
         //查询对应商品
-        $shops = Db::table('box_mhgoods')->where('boxfl_id', $id)->select();
+        $shops = Db::table('box_mhgoods')->where('boxfl_id', $id)->order('goods_pirce')->select();
         // print_r($shops);
         $boxfl['box_banner_images'] = cdnurl($boxfl['box_banner_images'], true);
         $boxfl['box_foot_images'] = cdnurl($boxfl['box_foot_images'], true);
@@ -166,4 +166,5 @@ class Box extends Api
         ];
         $this->success('商品', $arr);
     }
+
 }

@@ -211,8 +211,8 @@ class Auth
             'wechat_openid' => $extend['wechat_openid'] ?? '',
             'avatar' => $extend['avatar'] ?? '/assets/img/avatar.png',
             'status'    => 'normal',
-            'google_openid'=>$extend['google_openid'],
-            'google_unionid'=>$extend['google_unionid']
+            'google_openid'=>$extend['google_openid']?? '',
+            'google_unionid'=>$extend['google_unionid']?? ''
         ]);
         $params['password'] = $this->getEncryptPassword($password, $params['salt']);
         $params = array_merge($params, $extend);

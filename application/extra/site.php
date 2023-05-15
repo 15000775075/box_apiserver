@@ -30,12 +30,12 @@ return array (
     'example' => '示例分组',
   ),
   'mail_type' => '1',
-  'mail_smtp_host' => 'smtp.qq.com',
-  'mail_smtp_port' => '465',
-  'mail_smtp_user' => '10000',
-  'mail_smtp_pass' => 'password',
+  'mail_smtp_host' => 'smtpdm.aliyun.com',
+  'mail_smtp_port' => '25',
+  'mail_smtp_user' => 'dreambox@dreambox.fun',
+  'mail_smtp_pass' => 'ncHej5pX2WnystHs',
   'mail_verify_type' => '2',
-  'mail_from' => '1651471722@qq.com',
+  'mail_from' => 'dreambox@dreambox.fun',
   'attachmentcategory' => 
   array (
     'category1' => '分类一',

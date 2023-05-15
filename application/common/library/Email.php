@@ -221,6 +221,7 @@ class Email
                 $message = isset($matches[2][0]) ? $matches[4][0] : $e->getMessage();
                 $message = mb_convert_encoding($message, 'UTF-8', 'GBK,GB2312,BIG5');
                 $this->setError($message);
+                var_dump($message);
             } catch (\Exception $e) {
                 $this->setError($e->getMessage());
             }

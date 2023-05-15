@@ -34,7 +34,7 @@ use wxpay\WeixinPay;
  */
 class User extends Api
 {
-    protected $noNeedLogin = ['login', 'mobilelogin', 'getWechatInfoByAPP', 'register', 'resetpwd', 'changeemail', 'changemobile', 'third', 'userCapital', 'lunbobox', 'getBox', 'mpWxLogin', 'getCop', 'getPhoneNumber','getAdminUserImg','googleLogin'];
+    protected $noNeedLogin = ['login', 'emailRegister','emaillogin','mobilelogin', 'getWechatInfoByAPP', 'register', 'resetpwd', 'changeemail', 'changemobile', 'third', 'userCapital', 'lunbobox', 'getBox', 'mpWxLogin', 'getCop', 'getPhoneNumber','getAdminUserImg','googleLogin'];
     protected $noNeedRight = '*';
 
     protected $lockUserId = ['applyDelivery', 'exchange', 'moneyToCoin', 'withdrawal'];
@@ -1443,6 +1443,102 @@ class User extends Api
             unset($data['expiretime']);
             unset($data['expires_in']);
             $this->success('登录成功', $data);
+        } else {
+            $this->error($this->auth->getError());
+        }
+    }
+
+    /*
+       * 邮箱账号注册
+      */
+    public  function  emailRegister()
+    {
+        $param = $this->request->param();
+        $nickName = $param['nickName'];
+        $email = $param['email'];
+        $passWord=$param['passWord'];
+        $repeatPassWord=$param['repeatPassWord'];
+        if (!$nickName) {
+            $this->error('nickName is not empty!');
+        }
+        if (!$email) {
+            $this->error('email is not empty!');
+        }
+        if (!Validate::regex($email, '/^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/'))
+        {
+            $this->error('email incorrect format!');
+        }
+        if (!$passWord) {
+            $this->error('passWord is not empty!');
+        }
+        if($passWord!=$repeatPassWord)
+        {
+            $this->error('password inconsistency!');
+        }
+        $user = \app\common\model\User::getByEmail($email);
+        if ($user) {
+            $this->error('account already exists!');
+        } else {
+            $ret = $this->auth->register($nickName, $passWord, $email, '');
+        }
+        if ($ret) {
+            $data = $this->auth->getUserinfo();
+            $data['score'] = $data['score'] ? floatval($data['score']) : 0;
+            $data['avatar'] = $data['avatar'] ? cdnurl($data['avatar'], true) : '';
+            unset($data['id']);
+            unset($data['user_id']);
+            unset($data['createtime']);
+            unset($data['expiretime']);
+            unset($data['expires_in']);
+            $this->success('success', $data);
+        } else {
+            $this->error($this->auth->getError());
+        }
+    }
+
+
+    /**
+     * 邮箱登录
+     *
+     *
+     *
+     */
+    public function emaillogin()
+    {
+        $email = input('email');
+        $passWord = input('password');
+        $is_notice = 0; //是否弹窗
+        if (!$email) {
+            $this->error('email is not empty!');
+        }
+        if (!Validate::regex($email, '/^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/'))
+        {
+            $this->error('email incorrect format!');
+        }
+        if (!$passWord) {
+            $this->error('passWord is not empty!');
+        }
+        $user = \app\common\model\User::getByEmail($email);
+        if ($user) {
+            if ($user->status != 'normal') {
+                $this->error('account already exists!');
+            }
+            //如果已经有账号则直接登录
+            $ret = $this->auth->direct($user->id);
+        } else {
+            $this->error('please register the user first!');
+        }
+        if ($ret) {
+            $data = $this->auth->getUserinfo();
+            $data['score'] = $data['score'] ? floatval($data['score']) : 0;
+            $data['avatar'] = $data['avatar'] ? cdnurl($data['avatar'], true) : '';
+            $data['is_notice'] = $is_notice;
+            unset($data['id']);
+            unset($data['user_id']);
+            unset($data['createtime']);
+            unset($data['expiretime']);
+            unset($data['expires_in']);
+            $this->success('login success', $data);
         } else {
             $this->error($this->auth->getError());
         }

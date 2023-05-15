@@ -156,21 +156,9 @@ class Index extends Api
         $ooid = 'ALDMH' . date('Ymd') . substr(implode('', array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
         $box = Db::table('box_boxfl')->where('id', $post['boxid'])->find();
         $user = Db::table('box_user')->where('id',$this->auth->id)->find();
-        var_dump($user['money']);
-        var_dump($post['xs']);
         if($user['money']<$post['xs']){
             $this->error('您的星石不足抵扣');
         }
-//        if(!empty($post['currentCoupon_id'])){
-//            $my_current = db('coupon_list')->where('id',$post['currentCoupon_id'])->where('user_id',$this->auth->id)->find();
-//            if(!$my_current  ||  $my_current['status']!=0){
-//                $this->error('优惠券已被使用');
-//            }
-//            db('coupon_list')->where('id',$post['currentCoupon_id'])->where('user_id',$this->auth->id)->update(['status'=>1]);
-//
-//        }
-        // print_r($post);
-        // exit;
         $data = [
             'boxfl_id' => $post['boxid'],
             'boxfl_name' => $box['box_name'],
@@ -178,7 +166,6 @@ class Index extends Api
             'num' => $post['num'],
             'user_id' => $this->auth->id,
             'pay_method' => 'money',
-                //$post['payfs'],
             'pay_coin' => $post['price'],
             'out_trade_no' => $ooid,
             'status' => 'unpay', //unpay=待支付,used=已使用,refund=已关闭
@@ -187,12 +174,7 @@ class Index extends Api
             'xingshi' => $post['xs']
         ];
         $oid = Db::table('box_order')->insertGetId($data);
-        if (!empty($oid)) {
-            if (!empty($post['couid'])) {
-                Db::table('box_coupon_list')->where('id', $post['couid'])->update(['status' => 1, 'sytime' => time()]);
-            }
-        }
-        
+
         if($post['price'] == 0){
              $ret = Db::table('box_order')->where('id',$oid)->update(['status' => 'used', 'pay_time' => time()]);
              $s = Db::table('box_setting')->where('id',1)->find();
@@ -207,36 +189,6 @@ class Index extends Api
                     'addtime' => time()
                 ]);
              }
-            if (!empty($user['pid'])) {
-                //处理返佣
-                $u = Db::table('box_user')->where('id', $user['pid'])->find();
-                Db::table('box_user')->where('id', $user['pid'])->update(['score' => $u['score'] + 618]);
-                $boxx = Db::table('box_boxfl')->where('id', $s['boxfl_id'])->find();
-                $res = Db::table('box_yhbox')->insert([
-                    'boxfl_id' => $s['boxfl_id'],
-                    'user_id' => $user['pid'],
-                    'status' => 1,
-                    'addtime' => time()
-                ]);
-                if (!empty($res)) {
-                    Db::table('box_detailed')->insert([
-                        'user_id' => $user['pid'],
-                        'lytag' => 'yaoqing',
-                        'lxtag' => 'yhq',
-                        'boxfl_id' => $s['boxfl_id'],
-                        'laiyuan' => '邀请好友奖励' . $boxx['box_name'],
-                        'jltime' => time()
-                    ]);
-                    Db::table('box_coin_record')->insert([
-                        'user_id' => $u['id'],
-                        'before' => $u['score'],
-                        'after' => $u['score'] + 618,
-                        'coin' => 618,
-                        'type' => 'fxfy',
-                        'create_time' => time()
-                    ]);
-                }
-            }
             $this->success('支付成功',['ooid'=>$ooid]);
         }  
         

@@ -4,7 +4,7 @@ namespace app\common\library;
 
 use fast\Random;
 use think\Hook;
-
+use TX\Mailer;
 /**
  * 邮箱验证码类
  */
@@ -57,9 +57,7 @@ class Ems
         if (!Hook::get('ems_send')) {
             //采用框架默认的邮件推送
             Hook::add('ems_send', function ($params) {
-                $obj = new Email();
-
-                var_dump($params);
+                $obj = new Mailer();
                 $result = $obj
                     ->to($params->email)
                     ->subject('请查收你的验证码！')
