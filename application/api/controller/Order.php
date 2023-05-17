@@ -20,70 +20,67 @@ class Order extends Api
         $where  = [];
         //状态为1是待付款
         if (input('zt') == 1) {
-
             $order = Db::table('box_shoporder')->where('user_id', $this->auth->id)->where('status','unpay')->where('pay_method','<>','sqfh')->order('create_time DESC')->select();
         } else if (input('zt') == 2) {
-
             $order = Db::table('box_shoporder')->where('user_id', $this->auth->id)->where('status','used')->order('create_time DESC')->select();
         } else if (input('zt') == 3) {
-
             $order = Db::table('box_shoporder')->where('user_id', $this->auth->id)->where('status','refund')->order('create_time DESC')->select();
         } else if (input('zt') == 4) {
-
             $order = Db::table('box_shoporder')->where('user_id', $this->auth->id)->where('status','ywc')->order('create_time DESC')->select();
         }
-        // $order = Db::table('box_shoporder')->where('user_id', $this->auth->id)->where($where)->order('create_time DESC')->select();
-        foreach ($order as &$order_v) {
-            $order_v['image'] = cdnurl($order_v['image'], true);
-            if ($order_v['status'] == 'unpay') {
-                $order_v['status'] = '待支付';
-            } else if ($order_v['status'] == 'used') {
-                $order_v['status'] = '待发货';
-            } else if ($order_v['status'] == 'refund') {
-                $order_v['status'] = '已发货';
-            } else if ($order_v['status'] == 'ywc') {
-                $order_v['status'] = '已完成';
-            } else if ($order_v['status'] == 'undei') {
-                $order_v['status'] = '已关闭';
-            }
-            //快递公司:yuantong=圆通速递,yunda=韵达快递,shentong=申通快递,zhongtong=中通快递,jtexpress=极兔速递,shunfeng=顺丰速运,youzhengguonei=邮政快递,ems=EMS,jd=京东物流,debangkuaidi=德邦快递
-            switch ($order_v['kdgs']) {
-                case 'yuantong':
-                    $order_v['kdgs_v'] = '圆通速递';
-                    break;
-                case 'yunda':
-                    $order_v['kdgs_v'] = '韵达快递';
-                    break;
-                case 'shentong':
-                    $order_v['kdgs_v'] = '申通快递';
-                    break;
-                case 'zhongtong':
-                    $order_v['kdgs_v'] = '中通快递';
-                    break;
-                case 'jtexpress':
-                    $order_v['kdgs_v'] = '极兔速递';
-                    break;
-                case 'shunfeng':
-                    $order_v['kdgs_v'] = '顺丰速运';
-                    break;
-                case 'youzhengguonei':
-                    $order_v['kdgs_v'] = '邮政快递';
-                    break;
-                case 'ems':
-                    $order_v['kdgs_v'] = 'EMS';
-                    break;
-                case 'jd':
-                    $order_v['kdgs_v'] = '京东物流';
-                    break;
-                case 'debangkuaidi':
-                    $order_v['kdgs_v'] = '德邦快递';
-                    break;
-                default:
-                    break;
-            }
+        else if (input('zt')==0) {
+            $order = Db::table('box_shoporder')->where('user_id', $this->auth->id)->order('create_time DESC')->select();
         }
-
-        $this->success('订单数据', $order);
+            foreach ($order as &$order_v) {
+                $order_v['image'] = cdnurl($order_v['image'], true);
+                if ($order_v['status'] == 'unpay') {
+                    $order_v['status'] = '待支付';
+                } else if ($order_v['status'] == 'used') {
+                    $order_v['status'] = '待发货';
+                } else if ($order_v['status'] == 'refund') {
+                    $order_v['status'] = '已发货';
+                } else if ($order_v['status'] == 'ywc') {
+                    $order_v['status'] = '已完成';
+                } else if ($order_v['status'] == 'undei') {
+                    $order_v['status'] = '已关闭';
+                }
+                //快递公司:yuantong=圆通速递,yunda=韵达快递,shentong=申通快递,zhongtong=中通快递,jtexpress=极兔速递,shunfeng=顺丰速运,youzhengguonei=邮政快递,ems=EMS,jd=京东物流,debangkuaidi=德邦快递
+                switch ($order_v['kdgs']) {
+                    case 'yuantong':
+                        $order_v['kdgs_v'] = '圆通速递';
+                        break;
+                    case 'yunda':
+                        $order_v['kdgs_v'] = '韵达快递';
+                        break;
+                    case 'shentong':
+                        $order_v['kdgs_v'] = '申通快递';
+                        break;
+                    case 'zhongtong':
+                        $order_v['kdgs_v'] = '中通快递';
+                        break;
+                    case 'jtexpress':
+                        $order_v['kdgs_v'] = '极兔速递';
+                        break;
+                    case 'shunfeng':
+                        $order_v['kdgs_v'] = '顺丰速运';
+                        break;
+                    case 'youzhengguonei':
+                        $order_v['kdgs_v'] = '邮政快递';
+                        break;
+                    case 'ems':
+                        $order_v['kdgs_v'] = 'EMS';
+                        break;
+                    case 'jd':
+                        $order_v['kdgs_v'] = '京东物流';
+                        break;
+                    case 'debangkuaidi':
+                        $order_v['kdgs_v'] = '德邦快递';
+                        break;
+                    default:
+                        break;
+                }
+            }
+            $this->success('订单数据', $order);
     }
     /**
      * 查看单个订单详情

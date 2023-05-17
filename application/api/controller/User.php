@@ -568,11 +568,16 @@ class User extends Api
             'detail' => $params['detail'],
             'is_default' => $params['is_default'],
         ];
-        $ret = Db::table('box_user_address')->insert($data);
-        if (empty($ret)) {
-            $this->error('添加失败');
+        $id = Db::table('box_user_address')->insertGetId($data);
+        if (empty($id)) {
+            $this->error('failure!');
         }
-        $this->success('添加成功');
+        else {
+            if($params['is_default']==1) {
+                Db::table('box_user_address')->where('id', '<>', $id)->update(['is_default' => 0]);
+            }
+        }
+        $this->success('success!');
     }
 
     /**
@@ -593,9 +598,13 @@ class User extends Api
         ];
         $ret = Db::table('box_user_address')->where('id', $params['addressid'])->update($data);
         if (empty($ret)) {
-            $this->error('编辑失败');
+            $this->error('failure!');
+        } else {
+            if ($params['is_default'] == 1) {
+                Db::table('box_user_address')->where('id', '<>', $params['addressid'])->update(['is_default' => 0]);
+            }
         }
-        $this->success('编辑成功');
+        $this->success('success!');
     }
 
     /**
@@ -1252,11 +1261,11 @@ class User extends Api
                 $mobile = $this->auth->mobile;
                 // 更新盒柜
                 if ($phone == $mobile) {
-                    $this->error('不能转赠给自己!');
+                    $this->error('you cannot re-gift it to yourself!');
                 }
                 $prize = Db::table('box_prize_record')->where('id','in', $prizeId)->update(['user_id' => $users['id']]);
                 if (empty($prize)) {
-                    $this->error('转赠失败');
+                    $this->error('conversion failure!');
                 }
                 $shop = Db::table('box_prize_record')->where('id', 'in',$prizeId)->select();
                 // $times = date("Y-m-d H:i:s", time());
@@ -1275,23 +1284,23 @@ class User extends Api
                 // print_r($ret);
                 // exit;
                 if (!empty($ret)) {
-                    $this->success('转赠成功');
+                    $this->success('successful transfer');
                 } else {
-                    $this->error('转赠失效');
+                    $this->error('conversion failure!');
                 }
             } else {
-                $this->error('手机号未注册！');
+                $this->error('account not registered！');
             }
         }else{
             if (!empty($users)) {
                 $mobile = $this->auth->mobile;
                 // 更新盒柜
                 if ($phone == $mobile) {
-                    $this->error('不能转赠给自己!');
+                    $this->error('you cannot re-gift it to yourself!');
                 }
                 $prize = Db::table('box_prize_record')->where('id', $prizeId)->update(['user_id' => $users['id']]);
                 if (empty($prize)) {
-                    $this->error('转赠失败');
+                    $this->error('conversion failure!');
                 }
                 $shop = Db::table('box_prize_record')->where('id', $prizeId)->find();
                 $times = date("Y-m-d H:i:s", time());
@@ -1306,12 +1315,12 @@ class User extends Api
                 ];
                 $ret = Db::table('box_give')->insert($data);
                 if (!empty($ret)) {
-                    $this->success('转赠成功');
+                    $this->success('successful transfer!');
                 } else {
-                    $this->error('转赠失效');
+                    $this->error('conversion failure!');
                 }
             } else {
-                $this->error('手机号未注册！');
+                $this->error('account not registered！');
             }
         }
 
@@ -1347,13 +1356,13 @@ class User extends Api
         $zzjl = Db::table('box_give')->where('lyuserid', $this->auth->id)->whereOr('jsuserid', $this->auth->id)->order('zztime DESC')->select();
         foreach ($zzjl as &$zzjl_v) {
             if ($zzjl_v['lyuserid'] == $this->auth->id) {
-                $zzjl_v['status'] = '赠送好友';
+                $zzjl_v['status'] = 'gift a friend';
             } else if ($zzjl_v['jsuserid'] == $this->auth->id) {
-                $zzjl_v['status'] = '好友赠送';
+                $zzjl_v['status'] = 'gift from friend';
             }
             $zzjl_v['zztime'] = date('Y-m-d H:i:s', $zzjl_v['zztime']);
         }
-        $this->success('转赠记录', $zzjl);
+        $this->success('gifts', $zzjl);
     }
     /**
      * 申请代理

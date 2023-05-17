@@ -40,26 +40,25 @@ class Box extends Api
     public function getBox()
     {
         $box = Boxfl::getBoxfl();
-        $order = Db::table('box_order')->where('user_id',$this->auth->id)->where('status','used')->select();
-        $s = Db::name('setting')->where('id',1)->find();
+        #$order = Db::table('box_order')->where('user_id',$this->auth->id)->where('status','used')->select();
+        #$s = Db::name('setting')->where('id',1)->find();
         if (empty($box)) {
             $this->error('未找到盲盒');
-        } else {
-            foreach ($box as &$box_v) {
-                $box_v['box_banner_images'] = cdnurl($box_v['box_banner_images'], true);
-                $box_v['box_foot_images'] = cdnurl($box_v['box_foot_images'], true);
-                $box_v['score_rmb_rate'] = $s['score_rmb_rate'];
-                if($box_v['xryh'] == 1){
-                    //等于1代表开启新人优惠;
-                    if(empty($order)){
-                        //为空则开启新人优惠
-                        $box_v['yh'] = 1;
-                    }else{
-                        $box_v['yh'] = 0;
-                    }
-                }
-            }
-            
+//        } else {
+//            foreach ($box as &$box_v) {
+//                $box_v['box_banner_images'] = cdnurl($box_v['box_banner_images'], true);
+//                $box_v['box_foot_images'] = cdnurl($box_v['box_foot_images'], true);
+//                $box_v['score_rmb_rate'] = $s['score_rmb_rate'];
+//                if($box_v['xryh'] == 1){
+//                    //等于1代表开启新人优惠;
+//                    if(empty($order)){
+//                        //为空则开启新人优惠
+//                        $box_v['yh'] = 1;
+//                    }else{
+//                        $box_v['yh'] = 0;
+//                    }
+//                }
+//            }
             $this->success('盲盒数据', $box);
         }
     }
@@ -70,8 +69,6 @@ class Box extends Api
     {
         //获取盲盒ID
         $id = input('id');
-        //         print_r($id);
-        // exit;
         //根据ID查询对应盲盒
         $boxfl = Db::table('box_boxfl')->where('boxswitch', 1)->where('id', $id)->find();
         $s = Db::name('setting')->where('id',1)->find();

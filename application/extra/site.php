@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'name' => 'UnBox',
+  'name' => 'Dream Box',
   'beian' => '鲁ICP备2022027172号-8',
   'cdnurl' => '',
   'version' => '1.0.1',

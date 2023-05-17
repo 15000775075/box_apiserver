@@ -159,7 +159,7 @@ class Shop extends Api
         $ooid = 'ALDMH' . date('Ymd') . substr(implode('', array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
         $epay = new epay;
         if (empty($post['addresid'])) {
-            $this->error('未选择收获地址');
+            $this->error('please fill in the delivery address!');
         }
         $shop = Db::table('box_goods')->where('id', $post['shopid'])->find();
         $addres = Db::table('box_user_address')->where('id', $post['addresid'])->find();
@@ -190,14 +190,14 @@ class Shop extends Api
                 //如果为0就是H5
                 $ret = Db::table('box_shoporder')->insert($order);
                 if (empty($ret)) {
-                    $this->error('创建订单失败');
+                    $this->error('order creation failure!');
                 }
                 $notifyurl = $this->request->domain() . '/index.php/api/pay/epayscnotifyx';
                 $epay->goePay($ooid, 'wechat', '购买商品', $price, $notifyurl, $this->request->domain() . '/h5/#/pages/mall/paySuccexx');
             } else if ($post['terminal'] == 1) {
                 $ret = Db::table('box_shoporder')->insert($order);
                 if (empty($ret)) {
-                    $this->error('创建订单失败');
+                    $this->error('order creation failure!');
                 }
                 // 如果为1就是小程序
                 $this->payJoinfee('购买商品', $ooid, $price);
@@ -213,11 +213,11 @@ class Shop extends Api
             $order['price'] = $shop['c_pirce'];
             $order['pay_coin'] = $price;
             if ($this->auth->score < $price) {
-                $this->error('幸运币不足');
+                $this->error('lack of lucky coin!');
             }
             $ret = Db::table('box_shoporder')->insert($order);
             if (empty($ret)) {
-                $this->error('创建订单失败');
+                $this->error('order creation failure!');
             }
             // $order = Db::table('box_shoporder')->where('out_trade_no', $ooid)->find();
             //更新用户幸运币余额
@@ -235,23 +235,23 @@ class Shop extends Api
             Db::table('box_coin_record')->insert($coindata);
             $res = Db::table('box_user')->where('id', $this->auth->id)->update(['score' => ($this->auth->score - $price)]);
             if (empty($res)) {
-                $this->error('兑换失败');
+                $this->error('failure to exchange!');
             }
 
             //支付成功更改订单状态为待发货
             Db::table('box_shoporder')->where('out_trade_no', $ooid)->update(['status' => 'used']);
-            $this->success('兑换成功');
+            $this->success('successful exchange!');
         } else if ($post['payfs'] == 'xiguazi') { //幸运籽支付
             //否则就是金币支付
             $price = $shop['xgz_price'] * $post['num'] + $shop['freight'];
             $order['price'] = $shop['xgz_price'];
             $order['pay_money'] = $price;
             if ($this->auth->money < $price) {
-                $this->error('钻石不足');
+                $this->error('diamond deficiency!');
             }
             $ret = Db::table('box_shoporder')->insert($order);
             if (empty($ret)) {
-                $this->error('创建订单失败');
+                $this->error('order creation failure!');
             }
             // $order = Db::table('box_shoporder')->where('out_trade_no', $ooid)->find();
             //更新用户幸运币余额
@@ -269,11 +269,11 @@ class Shop extends Api
             Db::table('box_coin_record')->insert($coindata);
             $res = Db::table('box_user')->where('id', $this->auth->id)->update(['money' => ($this->auth->money - $price)]);
             if (empty($res)) {
-                $this->error('兑换失败');
+                $this->error('order creation failure!');
             }
             //支付成功更改订单状态为待发货
             Db::table('box_shoporder')->where('out_trade_no', $ooid)->update(['status' => 'used']);
-            $this->success('兑换成功');
+            $this->success('successful exchange!');
             
         } else if ($post['payfs'] == 'alipay') {
             $order['price'] = $shop['pirce'];
@@ -282,14 +282,14 @@ class Shop extends Api
             if ($post['terminal'] == 0) {
                          $ret = Db::table('box_shoporder')->insert($order);
                 if (empty($ret)) {
-                    $this->error('创建订单失败');
+                    $this->error('order creation failure!');
                 }
                 $notifyurl = $this->request->domain() . '/index.php/api/pay/epayscnotifyx';
                 $epay->goePay($ooid, 'alipay', '购买商品', $price, $notifyurl, $this->request->domain() . '/h5/#/pages/mall/paySuccexx');
             } else if ($post['terminal'] == 1) {
                 $ret = Db::table('box_shoporder')->insert($order);
                 if (empty($ret)) {
-                    $this->error('创建订单失败');
+                    $this->error('order creation failure!');
                 }
                 // 如果为1就是小程序
                 $this->payJoinfee('购买商品', $ooid, $price);
