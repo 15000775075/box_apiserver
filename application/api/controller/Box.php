@@ -59,8 +59,9 @@ class Box extends Api
 //                    }
 //                }
 //            }
-            $this->success('盲盒数据', $box);
+
         }
+        $this->success('盲盒数据', $box);
     }
     /**
      * 查询盲盒商品
